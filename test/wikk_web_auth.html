@@ -1,0 +1,23 @@
+<html>
+<head>
+  <script src="/js/jquery-3.0.0.min.js"></script>
+  <script src="/js/wikk_ajax-min.js"></script>
+  <script src="/js/wikk_web_auth-min.js"></script>
+  <script>
+    function local_callback() {
+      alert('done');
+    }
+    function init() {
+      //Check if we are authenticated, and fill in login span appropriately. 
+      //logged_in(display lock/unlock image, redirect to url after login, Span id, local_callback)
+      wikk_web_auth.logged_in(false, '/test/wikk_web_auth.html', 'login_span', local_callback); //redirect back to self, after login page.
+    }
+  </script>
+</head>
+<body onload="init();">
+  <h2>Test Auth should fill in following span with lock/unlock button</h2>
+  <hr><br>
+  <span id="login_span"></span>
+  <hr><br>
+</body>
+</html>
