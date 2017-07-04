@@ -1,5 +1,6 @@
 var wikk_web_auth = (function () {
   //authentication
+  var VERSION = "1.0.1";
   var auth_cgi = "/ruby/login.rbx";
   var use_lock_only = false; //Use only the lock/unlock images, and no text in the div.
   var return_url = ''; //Where we jump to if we are authenticated.
@@ -9,6 +10,8 @@ var wikk_web_auth = (function () {
   var login_span = ''; //id of the div or span element we inject the login button into.
   var callers_callback = null; //Call this function after we get a response from the server.
   var recheck_interval = 180000; //Recheck we are logged in every interval, and change div/span appropriately.
+
+  function version() { return VERSION; }
 
   //Asynchronous callback from check of authenticated state/or a login/logout.
   //A change in login state will toggle the lock/unlock image in the span.
@@ -88,7 +91,8 @@ var wikk_web_auth = (function () {
     authenticated: authenticated,
     set_callers_callback: set_callers_callback,
     clear_callers_callback: clear_callers_callback,
-    set_recheck_interval: set_recheck_interval
+    set_recheck_interval: set_recheck_interval,
+    version: version
   }
 })();
 
