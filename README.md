@@ -17,9 +17,12 @@ Javascript module provides common authentication framework for Wikarekare's html
     <script src="wikk_web_auth.js"></script>
     ...
     <script>
+      function login_callback() {
+        alert('done');
+      }
       init() {
         //Check if we are authenticated, and fill in login span appropriately. 
-        logged_in(true, '/admin/sites.html'); //(display lock/unlock image, return url after login page)
+        wikk_web_auth.logged_in(true, '/admin/sites.html', login_callback); //(display lock/unlock image, return url after login page)
         ...
       }
       ...
