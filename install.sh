@@ -1,2 +1,2 @@
-#!/bin/sh
+#!/bin/bash
 #Copy it to the web server.
