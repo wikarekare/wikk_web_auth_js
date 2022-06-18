@@ -2,11 +2,12 @@
 require 'cgi'
 require 'wikk_configuration'
 require 'wikk_web_auth'
+RLIB = '/wikk/rlib'
+require_relative "#{RLIB}/wikk_conf.rb"
 
 cgi = CGI.new('html5')
 
 begin
-  load '/usr/local/wikk/etc/wikk.conf' # Pull in config constants for Wikarekare.
   password_conf = WIKK::Configuration.new(WIKK_PASSWORD_CONF)
 
   return_url = CGI.escapeHTML(cgi['ReturnURL']) # We go here if we are authenticated
@@ -44,12 +45,15 @@ begin
       end
     end
   end
-rescue Exception => e # rubocop:disable Lint/RescueException In a CGI we want to handle all exceptions.
+rescue Exception => e
+  backtrace = e.backtrace[0].split(':')
+  message = "MSG: (#{File.basename(backtrace[-3])} #{backtrace[-2]}): #{e.message.to_s.gsub(/'/, '\\\'')}\n"
+
   cgi.header('type' => 'text/html')
   cgi.out do
     cgi.html do
       cgi.head { cgi.title { 'login' } } +
-        cgi.body { "Error #{e.message}<br>\n" }
+        cgi.body { "Error #{message}<br>\n" }
     end
   end
 end
