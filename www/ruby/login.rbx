@@ -9,6 +9,7 @@ cgi = CGI.new('html5')
 
 begin
   password_conf = WIKK::Configuration.new(WIKK_PASSWORD_CONF)
+  pstore_conf = JSON.parse(PSTORE_CONF)
 
   return_url = CGI.escapeHTML(cgi['ReturnURL']) # We go here if we are authenticated
   action = CGI.escapeHTML(cgi['action']) # We perform this action ['test','logout','login']. No action == login
@@ -18,11 +19,11 @@ begin
 
   if action == 'test' # Test is asking for json true/false response.
     cgi.out('type' => 'application/json') do
-      "{ \"returnCode\": \"#{WIKK::Web_Auth.authenticated?(cgi) ? 'true' : 'false'}\" }\n"
+      "{ \"returnCode\": \"#{WIKK::Web_Auth.authenticated?(cgi, config: pstore_conf) ? 'true' : 'false'}\" }\n"
     end
   else # We are wanting to login or logout.
 
-    auth = WIKK::Web_Auth.new(cgi, password_conf, return_url) # Create a new athentication record.
+    auth = WIKK::Web_Auth.new(cgi, password_conf, pstore_conf, return_url) # Create a new athentication record.
 
     # If we are authenticated, then decide if we want a fast return,
     # Or offer a logout.
