@@ -19,7 +19,7 @@ begin
 
   if action == 'test' # Test is asking for json true/false response.
     cgi.out('type' => 'application/json') do
-      "{ \"returnCode\": \"#{WIKK::Web_Auth.authenticated?(cgi, config: pstore_conf) ? 'true' : 'false'}\" }\n"
+      "{ \"returnCode\": \"#{WIKK::Web_Auth.authenticated?(cgi, pstore_config: pstore_conf) ? 'true' : 'false'}\" }\n"
     end
   else # We are wanting to login or logout.
 
