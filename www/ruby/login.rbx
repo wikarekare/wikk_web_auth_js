@@ -2,6 +2,7 @@
 require 'cgi'
 require 'wikk_configuration'
 require 'wikk_web_auth'
+require 'json'
 RLIB = '/wikk/rlib' unless defined? RLIB
 require_relative "#{RLIB}/wikk_conf.rb"
 
@@ -9,7 +10,7 @@ cgi = CGI.new('html5')
 
 begin
   password_conf = WIKK::Configuration.new(WIKK_PASSWORD_CONF)
-  pstore_conf = JSON.parse(PSTORE_CONF)
+  pstore_conf = JSON.parse(File.read(PSTORE_CONF))
 
   return_url = CGI.escapeHTML(cgi['ReturnURL']) # We go here if we are authenticated
   action = CGI.escapeHTML(cgi['action']) # We perform this action ['test','logout','login']. No action == login
@@ -23,7 +24,7 @@ begin
     end
   else # We are wanting to login or logout.
 
-    auth = WIKK::Web_Auth.new(cgi, password_conf, pstore_conf, return_url) # Create a new athentication record.
+    auth = WIKK::Web_Auth.new(cgi, password_conf, return_url, pstore_config: pstore_conf) # Create a new athentication record.
 
     # If we are authenticated, then decide if we want a fast return,
     # Or offer a logout.
