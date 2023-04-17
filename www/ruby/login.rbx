@@ -2,7 +2,6 @@
 require 'cgi'
 require 'wikk_configuration'
 require 'wikk_web_auth'
-require 'json'
 RLIB = '/wikk/rlib' unless defined? RLIB
 require_relative "#{RLIB}/wikk_conf.rb"
 
@@ -24,7 +23,8 @@ begin
     end
   else # We are wanting to login or logout.
 
-    auth = WIKK::Web_Auth.new(cgi, password_conf, return_url, pstore_config: pstore_conf) # Create a new athentication record.
+    # Create a new athentication record.
+    auth = WIKK::Web_Auth.new(cgi, password_conf, return_url, pstore_config: pstore_conf, run_auth: true)
 
     # If we are authenticated, then decide if we want a fast return,
     # Or offer a logout.
