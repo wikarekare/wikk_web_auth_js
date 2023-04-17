@@ -17,7 +17,7 @@ var wikk_web_auth = (function () {
   //A change in login state will toggle the lock/unlock image in the span.
   //Uses login.rbx (wikk_web_auth_login)
   //  @param data [Hash] Created from the returned json by ajax call.
-  //  @note Fills in the login_span, and triggers a recheck after the recheck_interval. 
+  //  @note Fills in the login_span, and triggers a recheck after the recheck_interval.
   function web_auth_AJAXCallback(data)
   {
     var login_span_ref =  document.getElementById(login_span);
@@ -35,13 +35,15 @@ var wikk_web_auth = (function () {
     }
     if(callers_callback != null) {
       var callback = callers_callback;
-      clear_callers_callback(); 
+      clear_callers_callback();
       callback(authentication_state);
     }
-    //recheck the login state after the recheck_interval. A change in login state will toggle the lock/unlock image in the span.
+    // recheck the login state after the recheck_interval.
+    // A change in login state will toggle the lock/unlock image in the span.
+    // action; 'test' means check to see if we are authenticated
     wikk_ajax.delayed_ajax_post_call(auth_cgi , {action: 'test'}, web_auth_AJAXCallback, null, null, 'json', false, recheck_interval);
   }
-  
+
   //Set key module variable and then initiates an Ajax call to login.rbx (wikk_web_auth_login)
   //This will populate the login span (or div) with a lock/unlock image button to call login.rbx
   //  @param use_lock_only [Boolean] if true, the span will have just the image, and no text
@@ -51,13 +53,14 @@ var wikk_web_auth = (function () {
   function logged_in(use_lock_only, the_return_url, the_login_span, the_callers_callback) {
     lock_image.src="/images/locked.gif";
     unlock_image.src = "/images/unlocked.gif";
-    
+
     if(use_lock_only != null) { lock_only = use_lock_only; }
     if(the_return_url != null) { return_url = the_return_url; }
     if(the_login_span != null) { login_span = the_login_span; }
     set_callers_callback(the_callers_callback);
-    
-    //cookie is _wikk_rb_sess_id , validated by ruby/login.rbx
+
+    // cookie is _wikk_rb_sess_id , validated by ruby/login.rbx
+    // action; 'test' means check to see if we are authenticated
     wikk_ajax.ajax_post_call(auth_cgi , {action: 'test'}, web_auth_AJAXCallback, null, null, 'json', false);
   }
 
@@ -66,13 +69,13 @@ var wikk_web_auth = (function () {
   function authenticated() {
     return authentication_state;
   }
-  
+
   //Set a user level callback. Note, this will fire only once. To repeat, call within the callback.
   //  @param the_callers_callback [Function] We will call this, if not null, after the next Ajax callback
   function set_callers_callback(the_callers_callback) {
     callers_callback = the_callers_callback;
   }
-  
+
   //Stops further user level callbacks.
   function clear_callers_callback() {
     callers_callback = null;
@@ -86,7 +89,7 @@ var wikk_web_auth = (function () {
 
   //return a hash of key: function pairs, with the key being the same name as the function.
   //Hence call with wikk_auth_module.function_name()
-  return { 
+  return {
     logged_in: logged_in,
     authenticated: authenticated,
     set_callers_callback: set_callers_callback,
@@ -95,6 +98,3 @@ var wikk_web_auth = (function () {
     version: version
   }
 })();
-
-
-
