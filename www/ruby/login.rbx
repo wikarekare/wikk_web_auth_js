@@ -2,8 +2,10 @@
 require 'cgi'
 require 'wikk_configuration'
 require 'wikk_web_auth'
-RLIB = '/wikk/rlib' unless defined? RLIB
-require_relative "#{RLIB}/wikk_conf.rb"
+
+unless defined? WIKK_CONF
+  load '/wikk/etc/wikk.conf'
+end
 
 cgi = CGI.new('html5')
 
