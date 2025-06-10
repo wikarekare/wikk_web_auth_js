@@ -3,9 +3,7 @@ require 'cgi'
 require 'wikk_configuration'
 require 'wikk_web_auth'
 
-unless defined? WIKK_CONF
-  load '/wikk/etc/wikk.conf'
-end
+load '/wikk/etc/wikk.conf' unless defined? WIKK_CONF
 
 cgi = CGI.new('html5')
 
