@@ -47,9 +47,9 @@ begin
       end
     end
   end
-rescue Exception => e # rubocop:disable Lint/RescueException We don't want the cgi to die quietly
+rescue Exception => e # rubocop:disable Lint/RescueException
   backtrace = e.backtrace[0].split(':')
-  message = "MSG: (#{File.basename(backtrace[-3])} #{backtrace[-2]}): #{e.message.to_s.gsub(/'/, '\\\'')}\n"
+  message = "MSG: (#{File.basename(backtrace[-3])} #{backtrace[-2]}): #{e.message.to_s.gsub('\'', '\\\'')}\n"
 
   cgi.header('type' => 'text/html')
   cgi.out do
