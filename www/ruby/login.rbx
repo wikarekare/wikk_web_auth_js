@@ -1,9 +1,9 @@
 #!/usr/local/bin/ruby
 require 'cgi'
-require 'wikk_configuration'
-require 'wikk_web_auth'
 
 load '/wikk/etc/wikk.conf' unless defined? WIKK_CONF
+require 'wikk_configuration'
+require 'wikk_web_auth'
 
 cgi = CGI.new('html5')
 
